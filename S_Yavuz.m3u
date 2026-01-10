@@ -3,10 +3,10 @@
 #EXTINF:-1 group-title="ULUSAL" tvg-name="TRT 1 HD ☾☆ 🇹🇷" tvg-logo="http://assets.tvcdn.net/1045ea2f-2453-451d-a55f-ba17539641dd.png",
 https://tv-trt1.medya.trt.com.tr/master_720.m3u8
 
-#EXTINF:-1 group-title="HABER" tvg-logo="http://assets.tvcdn.net/ecbd3154-e8e7-44d7-bcbd-a9bcac9df4de.png", TRT Haber HD
+#EXTINF:-1 group-title="HABER" tvg-name="TRT Haber HD" tvg-logo="http://assets.tvcdn.net/ecbd3154-e8e7-44d7-bcbd-a9bcac9df4de.png",
 https://tv-trthaber.medya.trt.com.tr/master_720.m3u8
 
-#EXTINF:-1 group-title="HABER" TGRT Haber HD tvg-logo="https://i.imgur.com/PrxwKDw.png"
+#EXTINF:-1 group-title="HABER" tvg-name="TGRT Haber HD" tvg-logo="https://i.imgur.com/PrxwKDw.png"
 https://tgrthaber-live.daioncdn.net/tgrthaber/tgrthaber.m3u8
 
 #EXTINF:-1,  group-title="HABER", CNN Türk HD
