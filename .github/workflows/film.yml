@@ -42,12 +42,8 @@ jobs:
 
       - name: Commit and push film.json (SAFE)
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git add film.json
           git commit -m "Film listesi güncellendi [GitHub Actions]" || echo "No changes to commit"
-
-          # 🔥 PUSH'TAN HEMEN ÖNCE ZORUNLU REBASE
-          git pull --rebase --autostash https://x-access-token:${PAT_TOKEN}@github.com/mehmetey03/METV2.git main
-
-          git push https://x-access-token:${PAT_TOKEN}@github.com/mehmetey03/METV2.git main
+          git push https://x-access-token:${PAT_TOKEN}@github.com/seyityavuz/yavuznet.git main
