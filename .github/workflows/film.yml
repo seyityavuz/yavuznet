@@ -1,4 +1,4 @@
-8name: Film Scraper
+name: Film Scraper
 
 on:
   schedule:
