@@ -48,6 +48,6 @@ jobs:
           git commit -m "Film listesi güncellendi [GitHub Actions]" || echo "No changes to commit"
 
           # 🔥 PUSH'TAN ÖNCE DÜZ PULL (CI ortamında conflict çözmek mümkün değil)
-          git pull https://x-access-token:${PAT_TOKEN}@github.com/mehmetey03/METV2.git main
+          git pull https://x-access-token:${PAT_TOKEN}@github.com/seyityavuz/yavuznet.git main
 
-          git push https://x-access-token:${PAT_TOKEN}@github.com/mehmetey03/METV2.git main
+          git push https://x-access-token:${PAT_TOKEN}@github.com/seyityavuz/yavuznet.git main
