@@ -42,8 +42,8 @@ jobs:
 
       - name: Commit and push film.json (SAFE)
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN2 }}
         run: |
           git add film.json
           git commit -m "Film listesi güncellendi [GitHub Actions]" || echo "No changes to commit"
-          git push https://x-access-token:${PAT_TOKEN}@github.com/seyityavuz/yavuznet.git main
+          git push https://x-access-token:${PAT_TOKEN2}@github.com/seyityavuz/yavuznet.git main
