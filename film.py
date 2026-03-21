@@ -22,8 +22,10 @@ def get_html(url):
         r = SESSION.get(url, timeout=10)
         if r.status_code == 200:
             return r.text
-    except:
-        pass
+        else:
+            print(f"⚠ HTTP {r.status_code} → {url}")
+    except Exception as e:
+        print(f"⚠ get_html hata: {e} → {url}")
     return ""
 
 # ------------------------------
@@ -35,26 +37,30 @@ def get_embed_url(detail_url):
     html = get_html(detail_url)
     if not html:
         return ""
-    soup = BeautifulSoup(html, 'html.parser')
+    try:
+        soup = BeautifulSoup(html, 'html.parser')
 
-    # iframe
-    iframe = soup.find('iframe')
-    if iframe and iframe.get('src'):
-        src = iframe['src']
-        if src.startswith('//'):
-            src = 'https:' + src
-        elif not src.startswith('http'):
-            src = 'https://dizipal.website' + src
-        return src
+        # iframe
+        iframe = soup.find('iframe')
+        if iframe and iframe.get('src'):
+            src = iframe['src']
+            if src.startswith('//'):
+                src = 'https:' + src
+            elif not src.startswith('http'):
+                src = 'https://dizipal.website' + src
+            return src
 
-    # data-video-id
-    video_div = soup.find(attrs={"data-video-id": True})
-    if video_div:
-        return f"https://dizipal.website/{video_div['data-video-id']}"
+        # data-video-id
+        video_div = soup.find(attrs={"data-video-id": True})
+        if video_div:
+            return f"https://dizipal.website/{video_div['data-video-id']}"
 
-    # fallback
-    slug = detail_url.rstrip('/').split('/')[-1]
-    return f"https://dizipal.website/{hashlib.md5(slug.encode()).hexdigest()[:13]}"
+        # fallback
+        slug = detail_url.rstrip('/').split('/')[-1]
+        return f"https://dizipal.website/{hashlib.md5(slug.encode()).hexdigest()[:13]}"
+    except Exception as e:
+        print(f"⚠ get_embed_url hata: {e}")
+        return ""
 
 # ------------------------------
 # Film scraping
@@ -67,64 +73,68 @@ def scrape_page(page=1):
         print("  ⚠ HTML çekilemedi")
         return []
 
-    soup = BeautifulSoup(html, 'html.parser')
-    containers = soup.select('li.w-1\\/2')
-    if not containers:
-        containers = soup.find_all(class_=lambda x: x and 'w-1/2' in x)
-    if not containers:
-        print(f"❌ Film kutusu yok → Durdu.")
+    try:
+        soup = BeautifulSoup(html, 'html.parser')
+        containers = soup.select('li.w-1\\/2')
+        if not containers:
+            containers = soup.find_all(class_=lambda x: x and 'w-1/2' in x)
+        if not containers:
+            print(f"❌ Film kutusu yok → Durdu.")
+            return []
+
+        movies = []
+        for container in containers:
+            try:
+                # Başlık
+                title_elem = container.find(['h2', 'h3', 'h4'])
+                title = title_elem.get_text(strip=True) if title_elem else ""
+
+                # Yıl
+                year_elem = container.find(class_=lambda x: x and 'year' in x)
+                year = year_elem.get_text(strip=True) if year_elem else ""
+
+                # Tür
+                genre_elem = container.find(class_=lambda x: x and 'title' in x)
+                genre = genre_elem.get('title', '') if genre_elem else ""
+
+                # Resim
+                img = ""
+                for img_elem in container.find_all('img'):
+                    src = img_elem.get('data-src') or img_elem.get('src') or ""
+                    if 'uploads/movies/original/' in src:
+                        if src.startswith('//'):
+                            img = 'https:' + src
+                        elif src.startswith('/'):
+                            img = BASE + src
+                        else:
+                            img = src
+                        break
+
+                # Detay URL
+                link_elem = container.find('a', href=lambda x: x and '/film/' in x)
+                detail_url = ""
+                if link_elem:
+                    href = link_elem['href']
+                    if href.startswith('/'):
+                        detail_url = BASE + href
+                    elif href.startswith('http'):
+                        detail_url = href
+
+                movies.append({
+                    "title": title,
+                    "year": year,
+                    "genre": genre,
+                    "image": img,
+                    "detail_url": detail_url,
+                    "embed_url": ""  # Sonra dolduracağız
+                })
+            except Exception as e:
+                print(f"⚠ Film işlenirken hata: {e}")
+
+        return movies
+    except Exception as e:
+        print(f"⚠ scrape_page hata: {e}")
         return []
-
-    movies = []
-    for container in containers:
-        try:
-            # Başlık
-            title_elem = container.find(['h2', 'h3', 'h4'])
-            title = title_elem.get_text(strip=True) if title_elem else ""
-
-            # Yıl
-            year_elem = container.find(class_=lambda x: x and 'year' in x)
-            year = year_elem.get_text(strip=True) if year_elem else ""
-
-            # Tür
-            genre_elem = container.find(class_=lambda x: x and 'title' in x)
-            genre = genre_elem.get('title', '') if genre_elem else ""
-
-            # Resim
-            img = ""
-            for img_elem in container.find_all('img'):
-                src = img_elem.get('data-src') or img_elem.get('src') or ""
-                if 'uploads/movies/original/' in src:
-                    if src.startswith('//'):
-                        img = 'https:' + src
-                    elif src.startswith('/'):
-                        img = BASE + src
-                    else:
-                        img = src
-                    break  # ilk uygun resmi bulunca dur
-
-            # Detay URL
-            link_elem = container.find('a', href=lambda x: x and '/film/' in x)
-            detail_url = ""
-            if link_elem:
-                href = link_elem['href']
-                if href.startswith('/'):
-                    detail_url = BASE + href
-                elif href.startswith('http'):
-                    detail_url = href
-
-            movies.append({
-                "title": title,
-                "year": year,
-                "genre": genre,
-                "image": img,
-                "detail_url": detail_url,
-                "embed_url": ""  # Sonra dolduracağız
-            })
-        except Exception as e:
-            print(f"⚠ Film işlenirken hata: {e}")
-
-    return movies
 
 # ------------------------------
 # Embed URL'leri paralel al
@@ -136,7 +146,8 @@ def fill_embed_urls(movies):
             movie = futures[future]
             try:
                 movie['embed_url'] = future.result(timeout=10)
-            except:
+            except Exception as e:
+                print(f"⚠ fill_embed_urls hata: {e}")
                 movie['embed_url'] = ""
 
 # ------------------------------
@@ -163,7 +174,7 @@ if __name__ == "__main__":
 
     # JSON kaydet
     try:
-        file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "film.json")
+        file_path = os.path.join(os.getcwd(), "film.json")
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(movies, f, indent=2, ensure_ascii=False)
         print(f"\n🎉 Toplam film: {len(movies)}")
