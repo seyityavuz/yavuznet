@@ -31,6 +31,21 @@
       "url": "https://kick.com/efsane_tv"
     },
     {
+      "name": "Zumi BOX",
+      "slug": "zumibox",
+      "url": "https://kick.com/zumibox"
+    },
+    {
+      "name": "Sirius TV",
+      "slug": "siriustv",
+      "url": "https://kick.com/elvin-4k-pro"
+    },
+    {
+      "name": "Galaxyrtv",
+      "slug": "galaxyrtv",
+      "url": "https://kick.com/galaxyrtv"
+    },
+    {
       "name": "Teleon",
       "slug": "teleon",
       "url": "https://kick.com/teleontv"
