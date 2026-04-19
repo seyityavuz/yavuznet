@@ -1,4 +1,4 @@
-{
+={
   "output": {
     "folder": "streams",
     "bestFolder": "best",
@@ -36,14 +36,14 @@
       "url": "https://kick.com/zumibox"
     },
     {
-      "name": "Sirius TV",
-      "slug": "siriustv",
-      "url": "https://kick.com/elvin-4k-pro"
+      "name": "Retro TV",
+      "slug": "retrotv",
+      "url": "https://kick.com/beyazseytan"
     },
     {
-      "name": "Galaxyrtv",
-      "slug": "galaxyrtv",
-      "url": "https://kick.com/galaxyrtv"
+      "name": "resurrection",
+      "slug": "resurrection",
+      "url": "https://kick.com/resurrection-channel-tv2"
     },
     {
       "name": "Teleon",
