@@ -31,9 +31,14 @@
       "url": "https://kick.com/efsane_tv"
     },
     {
-      "name": "Teleon Tv Yeni",
-      "slug": "teleonyeni",
-      "url": "http://vipotv.com/teleon-tv"
+      "name": "resurrection_tv1",
+      "slug": "resurrection_tv1",
+      "url": "https://kick.com/resurrection-channel-tv"
+    },
+    {
+      "name": "resurrection_tv2",
+      "slug": "resurrection_tv2",
+      "url": "https://kick.com/resurrection-channel-tv2"
     },
     {
       "name": "Teleon",
