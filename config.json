@@ -46,6 +46,11 @@
       "url": "https://kick.com/galaxyrtv"
     },
     {
+      "name": "atv",
+      "slug": "atv",
+      "url": "https://www.atv.com.tr/canli-yayin"
+    },
+    {
       "name": "Teleon",
       "slug": "teleon",
       "url": "https://kick.com/teleontv"
