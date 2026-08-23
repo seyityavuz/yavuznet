@@ -1,0 +1,41 @@
+name: JSON Otomasyon İş Akışı
+
+# Workflow'un ne zaman çalışacağını belirler
+on:
+  push:
+    branches: [ "main", "master" ]
+    paths:
+      - '**.json' # Sadece JSON dosyalarında değişiklik olduğunda çalışır
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  process-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Depodaki dosyaları runner ortamına çeker
+      - name: Kodları Kopyala (Checkout)
+        uses: actions/checkout@v4
+
+      # 2. Node.js veya Python gibi bir ortam hazırlayabilirsiniz (İsteğe bağlı)
+      - name: Node.js Kurulumu
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 3. JSON dosyasının geçerli (valid) olup olmadığını kontrol eden örnek adım
+      - name: JSON Doğrulama Adımı
+        run: |
+          echo "JSON dosyaları kontrol ediliyor..."
+          # Örnek olarak projenizdeki dosya.json adını kendi dosya adınızla değiştirebilirsiniz
+          node -e "JSON.parse(require('fs.readFileSync('dosya.json', 'utf8')))"
+          echo "JSON formatı başarılı!"
+
+      # 4. Eğer JSON üzerinde otomatik değişiklik yapıp tekrar commit alacaksanız:
+      - name: Değişiklikleri Kaydet (İsteğe bağlı)
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Otomatik JSON güncellemesi"
+          file_pattern: '*.json'
+
