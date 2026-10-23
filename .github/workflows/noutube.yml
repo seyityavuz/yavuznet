@@ -28,10 +28,10 @@ jobs:
       
     - name: Commit and push if changes
       env:
-        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        PAT_TOKEN: ${{ secrets.PAT_TOKEN2 }}
       run: |
         git config --local user.email "seyityavuz@users.noreply.github.com"
         git config --local user.name "seyityavuz"
         git add -A
         git diff --quiet && git diff --staged --quiet || git commit -m "Update channel playlists [skip ci]"
-        git push https://x-access-token:${PAT_TOKEN}@github.com/seyityavuz/yavuznet.git main
+        git push https://x-access-token:${PAT_TOKEN2}@github.com/seyityavuz/yavuznet.git main
