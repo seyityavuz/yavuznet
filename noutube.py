@@ -7,7 +7,7 @@ import urllib3
 # SSL uyarılarını bastır
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-ENCRYPTED_URL = "https://ytube-wars.mywire.org/noutube/playlist.m3u"
+ENCRYPTED_URL = "aHR0cHM6Ly95dHViZS13YXJzLm15d2lyZS5vcmcvbm91dHViZS9wbGF5bGlzdC5tM3U="
 
 def create_noutube_folder():
     if not os.path.exists("noutube1"):
