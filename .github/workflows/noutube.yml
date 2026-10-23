@@ -32,4 +32,3 @@ jobs:
         git config --local user.name "GitHub Action"
         git add -A
         git diff --quiet && git diff --staged --quiet || (git commit -m "Update channel playlists [skip ci]" && git push)
-        
